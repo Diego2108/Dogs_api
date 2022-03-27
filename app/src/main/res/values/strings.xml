@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DogList</string>
+    <string name="subititle_Descriptions">En el busacador escribe la raza de perro deseada</string>
+    <string name="subtitle_descriptionString">Dogs Api</string>
+</resources>
