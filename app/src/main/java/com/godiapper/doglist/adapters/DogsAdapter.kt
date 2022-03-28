@@ -3,7 +3,6 @@ package com.godiapper.doglist.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.godiapper.doglist.MainActivity
 import com.godiapper.doglist.R
 
 class DogsAdapter(private val images: List<String>) : RecyclerView.Adapter<DogViewHolder>()  {
