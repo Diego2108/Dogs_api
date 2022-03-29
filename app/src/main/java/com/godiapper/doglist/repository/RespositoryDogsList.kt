@@ -2,6 +2,7 @@ package com.godiapper.doglist.repository
 
 import android.provider.MediaStore
 import com.godiapper.doglist.adapters.DogsAdapter
+import com.godiapper.doglist.core.DogsResponse
 import com.godiapper.doglist.network.DogServices
 import com.godiapper.doglist.network.RetrofitInstance
 import com.godiapper.doglist.network.RetrofitInstance.getRetrofit
@@ -14,5 +15,10 @@ import retrofit2.create
 
 class RespositoryDogsList {
     private  val retrofit = RetrofitInstance.getRetrofit().create(DogServices::class.java)
+
+
+    suspend fun getDogsByBreeds(query:String) :  Response<DogsResponse> = withContext(Dispatchers.IO){
+        retrofit.getDogsByBreeds("$query/images")
+    }
 
 }

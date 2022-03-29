@@ -20,51 +20,24 @@ import kotlinx.coroutines.launch
 class MainViewModel: ViewModel() {
 
     val dogsResponse = MutableLiveData<DogsResponse>()
-    val call = MutableLiveData<Boolean>()
 
     val repositoryDogsList = RespositoryDogsList()
 
-    private lateinit var adapter: DogsAdapter
-    private val dogImages = mutableListOf<String>()
+    val error = MutableLiveData<String>()
 
 
-    fun onCreate(){
+    fun searchByName(query:String) {
         viewModelScope.launch {
-            call.postValue(true)
-            val result = repositoryDogsList
-            /*if (!result.isNullOrEmpty()){
-                dogsResponse.postValue(result[])
-
-            }*/
-        }
-    }
-
-    private fun searchByName(query: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val call =
-                RetrofitInstance.getRetrofit().create(DogServices::class.java).getDogsByBreeds("$query/images")
-            val puppies = call.body()
-            runOnUiThread {
-                if (call.isSuccessful) {
-                    val images = puppies?.images ?: emptyList()
-                    dogImages.clear()
-                    dogImages.addAll(images)
-                    adapter.notifyDataSetChanged()
-                } else {
-                    showError()
-                }
-                hideKeyboard()
+            val call2 = repositoryDogsList.getDogsByBreeds(query)
+            if (
+                call2.isSuccessful
+            ){
+                dogsResponse.postValue(call2.body())
+            }else{
+                error.postValue(call2.message())
             }
-
         }
-
     }
 
-    private fun showError() {
-        Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show()
-    }
-    private fun hideKeyboard() {
-        val imm = getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(binding.viewRoot.windowToken, 0)
-    }
+
 }
